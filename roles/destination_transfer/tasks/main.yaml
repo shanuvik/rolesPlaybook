@@ -1,7 +1,7 @@
 ---
 - name: Copy the file to the destination servers
   copy:
-    src: /tmp/file.txt            # Path to the file on the control machine
+    src: /tmp/setup.sh            # Path to the file on the control machine
     dest: /etc/destination/       # Path to store the file on the destination server
     mode: '0755'
 #  delegate_to: "{{ inventory_hostname }}"
