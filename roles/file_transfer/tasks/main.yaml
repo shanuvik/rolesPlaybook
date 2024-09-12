@@ -1,0 +1,12 @@
+---
+- name: Fetch the file from the source server
+  fetch:
+    src: /etc/test/file.txt      # Path to the file on the source server
+    dest: /tmp/                  # Path to store the file on the control machine
+    flat: yes
+
+- name: Copy the file to the destination server
+  copy:
+    src: /tmp/file.txt           # Path to the file on the control machine
+    dest: /etc/destination/      # Path to store the file on the destination server
+

@@ -1,0 +1,58 @@
+---
+- name: Install Apache
+  ansible.builtin.yum:
+    name: httpd
+    state: present
+
+- name: Configure Apache to listen on a specific port
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^Listen '
+    line: "Listen {{ apache_listen_port }}"
+
+- name: Create DocumentRoot directory
+  ansible.builtin.file:
+    path: "{{ document_root }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0755'
+
+- name: Configure Apache vhost
+  ansible.builtin.copy:
+    dest: "/etc/httpd/conf.d/{{ server_name }}.conf"
+    content: |
+      <VirtualHost *:{{ apache_listen_port }}>
+          ServerName {{ server_name }}
+          DocumentRoot {{ document_root }}
+          <Directory "{{ document_root }}">
+              AllowOverride All
+              Require all granted
+          </Directory>
+          ErrorLog /var/log/httpd/{{ server_name }}-error.log
+          CustomLog /var/log/httpd/{{ server_name }}-access.log combined
+      </VirtualHost>
+
+- name: Create a simple index.html file
+  ansible.builtin.copy:
+    dest: "{{ document_root }}/index.html"
+    content: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <title>Welcome to {{ server_name }}</title>
+      </head>
+      <body>
+          <h1>Success! The Apache server is configured and running on {{ server_name }}.</h1>
+      </body>
+      </html>
+    owner: apache
+    group: apache
+    mode: '0644'
+
+- name: Start and enable Apache service
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: yes
+

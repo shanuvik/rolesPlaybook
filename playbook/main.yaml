@@ -1,0 +1,13 @@
+---
+- name: Apache Installation and Configuration
+  hosts: webservers
+  become: yes
+  roles:
+    - apache
+
+- name: File Transfer
+  hosts: source,destination
+  become: yes
+  roles:
+    - file_transfer
+
