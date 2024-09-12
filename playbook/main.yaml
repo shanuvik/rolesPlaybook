@@ -11,10 +11,10 @@
 - name: File Transfer - Fetch from source and copy to destination
   hosts: source
   roles:
-    - file_transfer
+    - source_transfer
 
 - name: Copy file to destination server
   hosts: destination
   roles:
-    - file_transfer
+    - destination_transfer
 

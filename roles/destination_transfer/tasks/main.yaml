@@ -1,0 +1,6 @@
+---
+- name: Copy the file to the destination servers
+  copy:
+    src: /tmp/file.txt            # Path to the file on the control machine
+    dest: /etc/destination/       # Path to store the file on the destination server
+#  delegate_to: "{{ inventory_hostname }}"
