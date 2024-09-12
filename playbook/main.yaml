@@ -8,9 +8,13 @@
   roles:
     - apache
 
-- name: File Transfer
-  hosts: source,destination
-  become: yes
+- name: File Transfer - Fetch from source and copy to destination
+  hosts: source
+  roles:
+    - file_transfer
+
+- name: Copy file to destination server
+  hosts: destination
   roles:
     - file_transfer
 
