@@ -1,7 +1,10 @@
 ---
+
 - name: Apache Installation and Configuration
   hosts: webservers
   become: yes
+  vars_files:
+    - roles/apache/vars/main.yaml
   roles:
     - apache
 
